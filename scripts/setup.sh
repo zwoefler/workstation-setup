@@ -51,3 +51,10 @@ if [ ! -f "$HOME/.ssh/github_rsa" ]; then
     su -c "ssh-keygen -t rsa -b 2048 -f $HOME/.ssh/github_rsa -N ''" -s /bin/sh $SUDO_USER
 fi
 
+############################
+# INSTALL PYTHON PACKAGES
+############################
+echo "[PIP] Installing Ansible..."
+pip3 install ansible
+
+echo "[COMPLETE] All tasks completed successfully."
