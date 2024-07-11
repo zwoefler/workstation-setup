@@ -107,10 +107,37 @@ install_vmchamp() {
     echo "[VMCHAMP] User $USER added to 'libvirt' and 'kvm' groups successfully."
 }
 
-
 if ! command -v vmchamp &> /dev/null; then
     check_CPU_supports_virtualisation
     install_vmchamp
 else
     echo "VmChamp is already installed."
+fi
+
+###################
+# NERDCTL
+###################
+
+NERDCTL_VERSION=1.7.6
+
+install_nerdctl() {
+    echo "[NERDCTL] Installing Rootless nerdctl version: $NERDCTL_VERSION"
+    echo "[NERDCTL] Checking requirement uidmap package is installed"
+    if ! dpkg -l | grep -q uidmap; then
+        echo "[NERDCTL] uidmap not installed. Installing..."
+        apt update
+        apt install -y uidmap
+    fi
+
+    echo "[NERDCTL] Installing nerdctl"
+    wget https://github.com/containerd/nerdctl/releases/download/v$NERDCTL_VERSION/nerdctl-full-$NERDCTL_VERSION-linux-amd64.tar.gz
+    tar Cxzvvf /usr/local nerdctl-full-$NERDCTL_VERSION-linux-amd64.tar.gz
+    containerd-rootless-setuptool.sh install
+    echo "[NERDCTL] Successfully installed NERDCTL"
+}
+
+if command -v nerdctl &> /dev/null; then
+    echo -e "nerdctl is already installed."
+else
+    install_nerdctl
 fi
