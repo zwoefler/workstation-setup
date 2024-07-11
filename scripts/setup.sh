@@ -41,9 +41,9 @@ apt-get install -y vim git jq tree python3-pip firefox-esr openssh-client
 # CREATE SSH KEYS
 ############################
 if systemctl is-active --quiet ssh; then
-    echo "SSH service active."
+    echo "[SSH] SSH service active."
 else
-    echo "Starting SSH service..."
+    echo "[SSH] Starting SSH service..."
     systemctl start ssh
 fi
 
@@ -58,7 +58,7 @@ if [ ! -f "$user_home/.ssh/github_rsa" ]; then
 fi
 
 ############################
-# MANAGE .bashrc FILE
+# .BASHRC
 ############################
 script_path=$(dirname "$0")
 local_bashrc="${script_path}/dot-files/.bashrc"
@@ -71,4 +71,46 @@ if [ -f "$local_bashrc" ]; then
 else
     echo "[DOT-FILES] NO local .bashrc, pulling from GitHub..."
     curl -sLo "$bashrc_path" "$remote_url"
+fi
+
+
+############################
+# VMCHAMP
+############################
+check_CPU_supports_virtualisation() {
+    if ! egrep -c '(vmx|svm)' /proc/cpuinfo &> /dev/null; then
+        echo "ERROR: Your CPU does not support virtualization."
+        exit 1
+    fi
+}
+
+install_vmchamp() {
+    echo "[VMCHAMP] Downloading and installing VmChamp..."
+    wget -qO- https://api.github.com/repos/zwoefler/VmChamp/releases/latest | grep "browser_download_url" | cut -d '"' -f 4 | wget -i - -O vmchamp
+    chmod +x vmchamp
+    mv vmchamp /usr/local/bin/
+    echo "[VMCHAMP] VmChamp installed successfully."
+
+    echo "[VMCHAMP] Checking requirements for KVM and libvirt..."
+    if ! dpkg -l | grep -qw qemu-kvm; then
+        echo "[VMCHAMP] KVM is not installed. Installing..."
+        apt update
+        apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+        echo "[VMCHAMP] KVM and related packages installed."
+    else
+        echo "[VMCHAMP] KVM is already installed."
+    fi
+
+    echo "[VMCHAMP] Adding user $USER to groups 'libvirt' and 'kvm'..."
+    sudo adduser "$USER" libvirt
+    sudo adduser "$USER" kvm
+    echo "[VMCHAMP] User $USER added to 'libvirt' and 'kvm' groups successfully."
+}
+
+
+if ! command -v vmchamp &> /dev/null; then
+    check_CPU_supports_virtualisation
+    install_vmchamp
+else
+    echo "VmChamp is already installed."
 fi
