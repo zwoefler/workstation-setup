@@ -47,14 +47,14 @@ else
     systemctl start ssh
 fi
 
-if [ ! -f "$HOME/.ssh/id_rsa" ]; then
+if [ ! -f "$user_home/.ssh/id_rsa" ]; then
     echo "[SSH-KEY] - CREATING - Create standard SSH key..."
-    su -c "ssh-keygen -t rsa -b 2048 -f $HOME/.ssh/id_rsa -N ''" -s /bin/sh $SUDO_USER
+    su -c "ssh-keygen -t rsa -b 2048 -f $user_home/.ssh/id_rsa -N ''" -s /bin/sh $SUDO_USER
 fi
 
-if [ ! -f "$HOME/.ssh/github_rsa" ]; then
+if [ ! -f "$user_home/.ssh/github_rsa" ]; then
     echo "[SSH-KEY] - CREATING - Creating GitHub SSH key..."
-    su -c "ssh-keygen -t rsa -b 2048 -f $HOME/.ssh/github_rsa -N ''" -s /bin/sh $SUDO_USER
+    su -c "ssh-keygen -t rsa -b 2048 -f $user_home/.ssh/github_rsa -N ''" -s /bin/sh $SUDO_USER
 fi
 
 ############################
@@ -63,7 +63,7 @@ fi
 script_path=$(dirname "$0")
 local_bashrc="${script_path}/dot-files/.bashrc"
 remote_url="https://raw.githubusercontent.com/zwoefler/workstation-setup/master/dot-files/.bashrc"
-bashrc_path="$HOME/.bashrc"
+bashrc_path="$user_home/.bashrc"
 
 if [ -f "$local_bashrc" ]; then
     echo "[DOT-FILES] Use local .bashrc"
