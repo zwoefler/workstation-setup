@@ -65,6 +65,7 @@ local_bashrc="${script_path}/dot-files/.bashrc"
 remote_url="https://raw.githubusercontent.com/zwoefler/workstation-setup/master/dot-files/.bashrc"
 bashrc_path="$user_home/.bashrc"
 
+# TODO: If exists skip
 if [ -f "$local_bashrc" ]; then
     echo "[DOT-FILES] Use local .bashrc"
     cp "$local_bashrc" "$bashrc_path"
