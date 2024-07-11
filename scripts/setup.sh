@@ -6,6 +6,12 @@ if [ "$(id -u)" -ne 0 ]; then
    exit 1
 fi
 
+if [ -n "$SUDO_USER" ]; then
+    user_home=$(getent passwd $SUDO_USER | cut -d: -f6)
+else
+    user_home=$HOME
+fi
+
 update_apt_cache() {
     local last_update=$(stat -c %Y /var/cache/apt/pkgcache.bin)
     local now=$(date +%s)
@@ -51,3 +57,18 @@ if [ ! -f "$HOME/.ssh/github_rsa" ]; then
     su -c "ssh-keygen -t rsa -b 2048 -f $HOME/.ssh/github_rsa -N ''" -s /bin/sh $SUDO_USER
 fi
 
+############################
+# MANAGE .bashrc FILE
+############################
+script_path=$(dirname "$0")
+local_bashrc="${script_path}/dot-files/.bashrc"
+remote_url="https://raw.githubusercontent.com/zwoefler/workstation-setup/master/dot-files/.bashrc"
+bashrc_path="$HOME/.bashrc"
+
+if [ -f "$local_bashrc" ]; then
+    echo "[DOT-FILES] Use local .bashrc"
+    cp "$local_bashrc" "$bashrc_path"
+else
+    echo "[DOT-FILES] NO local .bashrc, pulling from GitHub..."
+    curl -sLo "$bashrc_path" "$remote_url"
+fi
