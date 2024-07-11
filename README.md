@@ -1,7 +1,6 @@
 # Workstation Setup
 
-Workstation setup.
-
+Workstation setup: Debian12
 
 ```SHELL
 /ansible: Ansible playbooks

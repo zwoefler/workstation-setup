@@ -9,15 +9,24 @@
     name: "*"
     state: latest
 
-- name: Install a list of packages
+- name: Remove unwanted packages
+  ansible.builtin.apt:
+    name:
+      - nano
+    state: absent
+
+- name: Install basic dev packages
   ansible.builtin.apt:
     pkg:
     - git
     - jq
+    - tree
+    - vim
+    - python3-pip
+    - openssh-server
+    - openssh-client
+
+- name: Install GUI / programms packages
+  ansible.builtin.apt:
+    pkg:
     - firefox-esr
-
-# To Install
-
-# Remove
-# Nano
-
