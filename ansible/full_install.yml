@@ -1,0 +1,8 @@
+---
+- name: Full Setup
+  hosts: all
+  become: true
+
+  roles:
+    - apt_base_setup
+
