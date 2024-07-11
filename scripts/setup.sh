@@ -118,7 +118,7 @@ fi
 ###################
 # NERDCTL
 ###################
-
+#TODO: IS INSTALLED AS ROOT USER....
 NERDCTL_VERSION=1.7.6
 
 install_nerdctl() {
