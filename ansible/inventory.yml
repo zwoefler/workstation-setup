@@ -3,3 +3,7 @@ all:
     debian_workstation:
       ansible_host: 192.168.22.164
       ansible_user: user
+    deb12:
+      ansible_host: 192.168.22.202
+      ansible_user: martin
+
