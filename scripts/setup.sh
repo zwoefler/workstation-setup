@@ -1,17 +1,10 @@
 #!/bin/bash
 
-# Run as root?
-# if [ "$(id -u)" -ne 0 ]; then
-#    echo "[ROOT?] This script must be run as root" 1>&2
-#    exit 1
-# fi
-
 if [ -n "$SUDO_USER" ]; then
     user_home=$(getent passwd $SUDO_USER | cut -d: -f6)
 else
     user_home=$HOME
 fi
-
 
 echo ""
 echo "##################"
@@ -57,12 +50,12 @@ fi
 
 if [ ! -f "$user_home/.ssh/id_rsa" ]; then
     echo "[SSH-KEY] - CREATING - Create standard SSH key..."
-    su -c "ssh-keygen -t rsa -b 2048 -f $user_home/.ssh/id_rsa -N ''" -s /bin/sh $SUDO_USER
+    ssh-keygen -t rsa -b 2048 -f $user_home/.ssh/id_rsa -N ''
 fi
 
 if [ ! -f "$user_home/.ssh/github_rsa" ]; then
     echo "[SSH-KEY] - CREATING - Creating GitHub SSH key..."
-    su -c "ssh-keygen -t rsa -b 2048 -f $user_home/.ssh/github_rsa -N ''" -s /bin/sh $SUDO_USER
+    ssh-keygen -t rsa -b 2048 -f $user_home/.ssh/github_rsa -N ''
 fi
 
 echo "##########################"
