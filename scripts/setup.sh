@@ -137,6 +137,9 @@ install_nerdctl() {
         sudo apt install -y uidmap
     fi
 
+    echo "[NERDCTL] Add /usr/sbin to PATH for compatibility"
+    PATH="/usr/sbin:$PATH"
+
     echo "[NERDCTL] Installing nerdctl"
     wget https://github.com/containerd/nerdctl/releases/download/v$NERDCTL_VERSION/nerdctl-full-$NERDCTL_VERSION-linux-amd64.tar.gz
     sudo tar Cxzvvf /usr/local nerdctl-full-$NERDCTL_VERSION-linux-amd64.tar.gz
