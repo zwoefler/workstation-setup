@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Run as root?
-if [ "$(id -u)" -ne 0 ]; then
-   echo "[ROOT?] This script must be run as root" 1>&2
-   exit 1
-fi
+# if [ "$(id -u)" -ne 0 ]; then
+#    echo "[ROOT?] This script must be run as root" 1>&2
+#    exit 1
+# fi
 
 if [ -n "$SUDO_USER" ]; then
     user_home=$(getent passwd $SUDO_USER | cut -d: -f6)
