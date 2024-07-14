@@ -35,7 +35,7 @@ echo "[APT] Remove packages..."
 apt-get remove -y nano
 
 echo "[APT] Installing packages..."
-apt-get install -y vim git jq tree python3-pip firefox-esr openssh-client
+apt-get install -y vim git jq tree python3-pip firefox-esr openssh-client ffmpeg
 
 ############################
 # CREATE SSH KEYS
