@@ -74,7 +74,6 @@ else
     curl -sLo "$bashrc_path" "$remote_url"
 fi
 
-
 ############################
 # VMCHAMP
 ############################
@@ -133,6 +132,15 @@ install_nerdctl() {
     echo "[NERDCTL] Installing nerdctl"
     wget https://github.com/containerd/nerdctl/releases/download/v$NERDCTL_VERSION/nerdctl-full-$NERDCTL_VERSION-linux-amd64.tar.gz
     tar Cxzvvf /usr/local nerdctl-full-$NERDCTL_VERSION-linux-amd64.tar.gz
+
+    if [ -n "$SUDO_USER" ]; then
+        echo "[NERDCTL] Running rootless setup as $SUDO_USER"
+        sudo -u $SUDO_USER containerd-rootless-setuptool.sh install
+    else
+        echo "[NERDCTL] Script not ran as sudo. Can not ensure correct user context for nerdctl setup."
+        exit 1
+    fi
+
     containerd-rootless-setuptool.sh install
     echo "[NERDCTL] Successfully installed NERDCTL"
 }
