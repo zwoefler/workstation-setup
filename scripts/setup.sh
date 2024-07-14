@@ -70,14 +70,12 @@ remote_url="https://raw.githubusercontent.com/zwoefler/workstation-setup/master/
 bashrc_path="$user_home/.bashrc"
 
 if [ -f "$local_bashrc" ]; then
-    echo "[DOT-FILES] Use local .bashrc"
+    echo "[DOT-FILES] Copy local .bashrc"
     cp "$local_bashrc" "$bashrc_path"
 else
-    echo "[DOT-FILES] NO local .bashrc, pulling from GitHub..."
+    echo "[DOT-FILES] Pulling .bashrc from GitHub..."
     curl -sLo "$bashrc_path" "$remote_url"
 fi
-
-source "$bashrc_path"
 
 echo "############################"
 echo "# VMCHAMP"
@@ -147,3 +145,9 @@ if command -v nerdctl &> /dev/null; then
 else
     install_nerdctl
 fi
+
+echo "############################"
+echo "# FINISHED"
+echo "# Run the following to end setup:"
+echo "# source ~/.bashrc"
+echo "############################"
