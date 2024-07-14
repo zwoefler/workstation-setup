@@ -141,7 +141,6 @@ install_nerdctl() {
         exit 1
     fi
 
-    containerd-rootless-setuptool.sh install
     echo "[NERDCTL] Successfully installed NERDCTL"
 }
 
