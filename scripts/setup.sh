@@ -135,7 +135,7 @@ install_nerdctl() {
 
     if [ -n "$SUDO_USER" ]; then
         echo "[NERDCTL] Running rootless setup as $SUDO_USER"
-        su -c "containerd-rootless-setuptool.sh install"
+        containerd-rootless-setuptool.sh install
     else
         echo "[NERDCTL] Script not ran as sudo. Can not ensure correct user context for nerdctl setup."
         exit 1
