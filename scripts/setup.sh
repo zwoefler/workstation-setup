@@ -77,6 +77,8 @@ else
     curl -sLo "$bashrc_path" "$remote_url"
 fi
 
+source "$bashrc_path"
+
 echo "############################"
 echo "# VMCHAMP"
 echo "############################"
