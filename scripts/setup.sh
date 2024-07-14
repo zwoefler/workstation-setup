@@ -133,6 +133,9 @@ install_nerdctl() {
     echo "[NERDCTL] Add /usr/sbin to PATH for compatibility"
     PATH="/usr/sbin:$PATH"
 
+    echo "[NERDCTL] Enable dbus user session"
+    systemctl --user start dbus
+
     echo "[NERDCTL] Installing nerdctl"
     wget https://github.com/containerd/nerdctl/releases/download/v$NERDCTL_VERSION/nerdctl-full-$NERDCTL_VERSION-linux-amd64.tar.gz
     sudo tar Cxzvvf /usr/local nerdctl-full-$NERDCTL_VERSION-linux-amd64.tar.gz
@@ -147,7 +150,7 @@ else
 fi
 
 echo "############################"
-echo "# FINISHED"
-echo "# Run the following to end setup:"
-echo "# source ~/.bashrc"
+echo "FINISHED"
+echo "Run the following to end setup:"
+echo "source ~/.bashrc"
 echo "############################"
