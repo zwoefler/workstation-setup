@@ -89,7 +89,6 @@ echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft
 rm -f packages.microsoft.gpg
 
 echo "[VSCODE] Installing VSCode"
-sudo apt install apt-transport-https
 sudo apt update
 sudo apt install code
 
