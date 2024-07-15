@@ -15,23 +15,41 @@ print_help() {
 
 install_nerdctl() {
     echo "[INSTALL] Installing Rootless nerdctl version: $NERDCTL_VERSION"
-    echo "[INSTALL] Checking requirement uidmap package is installed"
-    if ! dpkg -l | grep -q uidmap; then
-        echo "[INSTALL] uidmap not installed. Installing..."
-        sudo apt update
-        sudo apt install -y uidmap
-    fi
+    echo "[INSTALL] Installing required packages:"
+    echo "  - uidmap"
+    echo "  - dbus-user-session"
+
+    sudo apt update
+    sudo apt install -y uidmap dbus-user-session
+
+    echo "[INSTALL] Enable dbus user session"
+    systemctl --user start dbus
 
     echo "[INSTALL] Installing nerdctl"
-    wget https://github.com/containerd/nerdctl/releases/download/v$NERDCTL_VERSION/nerdctl-full-$NERDCTL_VERSION-linux-amd64.tar.gz
-    sudo tar Cxzvvf /usr/local nerdctl-full-$NERDCTL_VERSION-linux-amd64.tar.gz
+    TAR_FILE="nerdctl-full-$NERDCTL_VERSION-linux-amd64.tar.gz"
+    if [ -f "$TAR_FILE" ]; then
+        echo "[INSTALL] Tar file already exists. Using the local file: $TAR_FILE"
+    else
+        echo "[INSTALL] Downloading nerdctl"
+        wget https://github.com/containerd/nerdctl/releases/download/v$NERDCTL_VERSION/$TAR_FILE
+    fi
+    sudo tar Cxzvvf /usr/local $TAR_FILE
     containerd-rootless-setuptool.sh install
     echo "[INSTALL] Successfully installed nerdctl"
+
+    echo ""
+    echo "Add /usr/sbin to PATH to run nerdctl"
+    echo "export PATH=/usr/sbin:\$PATH"
+    echo ""
+    echo "Or add it to your .bashrc or .bash_profile"
+    echo "export PATH=/usr/sbin:\$PATH >> ~/.bashrc"
 }
 
 uninstall_nerdctl() {
     echo "Uninstalling nerdctl, required packages and containerd"
     sudo apt remove -y uidmap
+
+    systemctl --user stop containerd
 
     echo "Removing Containerd and nerdctl"
     # Stolen from 1nachi
@@ -44,6 +62,7 @@ uninstall_nerdctl() {
     sudo rm -rv $XDG_RUNTIME_DIR/{buildkit,containerd-rootless}
     sudo rm -rv /usr/local/share/doc/nerdctl*
     sudo rm -v /etc/bash_completion.d/nerdctl
+    sudo rm -rv /home/$USER/.config/{cni,containerd,systemd}
 }
 
 install() {
@@ -56,17 +75,13 @@ install() {
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        "")
-            install
-            ;;
-        uninstall)
+        uninstall|delete|remove)
             uninstall_nerdctl
             exit 0
             ;;
         --version|-v)
             NERDCTL_VERSION="$2"
             shift 2
-            install
             ;;
         --help|-h)
             print_help
@@ -78,3 +93,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+
+if [ $# -eq 0 ]; then
+    install
+fi
