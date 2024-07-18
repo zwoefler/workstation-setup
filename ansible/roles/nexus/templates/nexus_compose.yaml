@@ -1,0 +1,13 @@
+services:
+  nexus:
+    image: "{{ nexus_image }}"
+    container_name: nexus
+    restart: always
+    ports:
+      - "{{ nexus_port }}:8081"
+    volumes:
+      - nexus-data:/nexus-data
+
+volumes:
+  nexus-data:
+

@@ -1,0 +1,16 @@
+- name: Pull Nexus image
+  command: "nerdctl compose --file {{nexus_work_dir}}/{{ nexus_compose_file }} pull"
+  register: pull_result
+  until: pull_result is succeeded
+
+- name: Start Nexus
+  command: "nerdctl compose --file {{ nexus_work_dir }}/{{ nexus_compose_file }} up -d"
+
+- name: Is Nexus Reachable
+  ansible.builtin.uri:
+    url: "{{ nexus_rest_api }}/v1/status/writable"
+    validate_certs: no
+  register: _result
+  until: _result.status == 200
+  retries: 40
+  delay: 5

@@ -1,0 +1,5 @@
+- include_tasks: setup_nexus.yaml
+- include_tasks: start_nexus3.yaml
+- include_tasks: change_admin_password.yaml
+- include_tasks: enable_annonymous_access.yaml
+- include_tasks: create_repositories.yaml

@@ -1,0 +1,17 @@
+- name: Enable anonymous access
+  ansible.builtin.uri:
+    method: PUT
+    url: "{{ nexus_rest_api }}/v1/security/anonymous"
+    user: "admin"
+    password: "admin"
+    force_basic_auth: true
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+        "enabled": "true",
+        "userId": "anonymous",
+        "realmName": "NexusAuthorizingRealm"
+      }
+    validate_certs: no
+    status_code: [200, 202, 204]
