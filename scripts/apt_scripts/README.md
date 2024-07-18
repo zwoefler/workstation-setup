@@ -3,8 +3,8 @@
 ## Get List of Nexus Repositories to create
 1. Run:
 ```SHELL
-sudo ./update_apt_sources.sh
 ./extract_repositories_yaml.sh
+sudo ./update_apt_sources.sh
 ```
 
 2. Copy the output to the Ansible Inventory
