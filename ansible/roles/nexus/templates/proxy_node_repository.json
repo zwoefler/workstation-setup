@@ -1,0 +1,46 @@
+{
+    "format": "npm",
+    "type": "proxy",
+    "name": "{{ repository.name }}",
+    "online": true,
+    "storage": {
+        "blobStoreName": "default",
+        "strictContentTypeValidation": true,
+        "writePolicy": "ALLOW"
+    },
+    "cleanup": {
+        "policyNames": [
+            "nouse-180"
+        ]
+    },
+    "apt": {
+        "distribution": "{{ repository.distribution }}",
+        "flat": false
+    },
+    "proxy": {
+        "remoteUrl": "{{ repository.url }}",
+        "contentMaxAge": -1,
+        "metadataMaxAge": 1440
+    },
+    "negativeCache": {
+        "enabled": false,
+        "timeToLive": 1440
+    },
+    "httpClient": {
+        "blocked": false,
+        "autoBlock": false,
+        "connection": {
+            "retries": 0,
+            "userAgentSuffix": "0",
+            "timeout": 60,
+            "enableCircularRedirects": false,
+            "enableCookies": false,
+            "useTrustStore": false
+        },
+        "authentication": null
+    },
+    "npm": {
+        "removeQuarantined": false
+    },
+    "routingRuleName": null
+}
