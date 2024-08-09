@@ -31,3 +31,4 @@ Playbook that setups up a working environment for offline work:
     - [X] Apt repos
     - [ ] Node packages / repos
     - [ ] GitHub binaries
+- [ ] Configure Yum repositories
