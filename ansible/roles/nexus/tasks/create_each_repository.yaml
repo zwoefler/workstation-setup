@@ -1,0 +1,47 @@
+- name: Creating Repository Debug Message
+  debug:
+    msg: "[CREATING] REPO: {{ repository_json.format }}. NAME: {{ repository_json.name }} TYPE: {{ repository_json.type }}."
+
+- name: Does repo exist?
+  ansible.builtin.uri:
+    method: GET
+    url: "{{ nexus_rest_api }}/v1/repositories/{{ repository_json.format }}/{{ repository_json.type }}/{{ repository_json.name }}"
+    user: "admin"
+    password: "admin"
+    force_basic_auth: true
+    validate_certs: no
+    status_code: [200, 404]
+  register: existing_repo
+
+- name: Update Repo, if exists
+  ansible.builtin.uri:
+    method: PUT
+    url: "{{ nexus_rest_api }}/v1/repositories/{{ repository_json.format }}/{{ repository_json.type }}/{{ repository_json.name }}"
+    user: "admin"
+    password: "admin"
+    force_basic_auth: true
+    body_format: json
+    body: "{{ repository_json }}"
+    headers:
+      Content-Type: "application/json"
+      accept: application/json
+    validate_certs: no
+    status_code: [200, 201, 204]
+  when: existing_repo.status == 200
+
+- name: Create repository
+  ansible.builtin.uri:
+    method: POST
+    url: "{{ nexus_rest_api }}/v1/repositories/{{ repository_json.format }}/{{ repository_json.type }}"
+    user: "admin"
+    password: "admin"
+    force_basic_auth: true
+    body_format: json
+    body: "{{ repository_json }}"
+    headers:
+      Content-Type: "application/json"
+      accept: application/json
+    validate_certs: no
+    status_code: [200, 201, 204, 400]
+  when: existing_repo.status == 404
+

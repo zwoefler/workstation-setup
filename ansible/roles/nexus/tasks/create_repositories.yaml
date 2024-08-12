@@ -1,0 +1,16 @@
+---
+- name: Create repositories
+  include_tasks: "create_each_repository.yaml"
+  loop: "{{ apt_repositories }}"
+  loop_control:
+    loop_var: repository
+  vars:
+    repository_json: "{{ lookup('template', 'proxy_apt_repository.json') }}"
+
+- name: Create repositories
+  include_tasks: "create_each_repository.yaml"
+  loop: "{{ github_repositories }}"
+  loop_control:
+    loop_var: repository
+  vars:
+    repository_json: "{{ lookup('template', 'proxy_github_repository.json') }}"

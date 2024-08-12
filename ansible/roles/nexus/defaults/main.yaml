@@ -1,0 +1,9 @@
+nexus_port: "8888"
+nexus_image: sonatype/nexus3:3.69.0
+nexus_compose_file: nexus_compose.yaml
+nexus_work_dir: "/home/{{ ansible_user }}/nexus"
+nexus_rest_api: "http://{{ ansible_host }}:{{ nexus_port }}/service/rest"
+apt_repositories:
+  - url: "http://de.archive.ubuntu.com/ubuntu/"
+    name: "ubuntu"
+    distribution: "focal jammy focal mantic xenial"
