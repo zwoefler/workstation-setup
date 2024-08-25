@@ -1,6 +1,12 @@
 # SCRIPTS
 
 
+Install software via script:
+```BASH
+curl https://raw.githubusercontent.com/zwoefler/workstation-setup/main/scripts/<APPLICATION_NAME>.sh | sudo bash -
+```
+
+## Base setup
 Install base setup:
 ```BASH
 curl https://raw.githubusercontent.com/zwoefler/workstation-setup/main/scripts/setup.sh | sudo bash -
