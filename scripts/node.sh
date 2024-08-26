@@ -42,6 +42,7 @@ uninstall_nvm() {
     echo "[UNINSTALL] nvm has been uninstalled."
     echo "Restart your terminal or run:"
     echo "source ~/.bashrc"
+
 }
 
 while [[ $# -gt 0 ]]; do
