@@ -23,10 +23,11 @@ install_nvm() {
     export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 
 
-    echo "[INSTALL] nvm installation complete. To start using nvm, restart your terminal or run:"
-    echo "source ~/.bashrc"
-
     nvm install --lts
+
+    echo "[INSTALL] nvm installation complete."
+    echo "Restart your terminal or run:"
+    echo "source ~/.bashrc"
 }
 
 uninstall_nvm() {
@@ -38,7 +39,10 @@ uninstall_nvm() {
     sed -i '/NVM_DIR/d' ~/.zshrc
     sed -i '/nvm.sh/d' ~/.zshrc
 
-    echo "[UNINSTALL] nvm has been uninstalled. Please restart your terminal."
+    echo "[UNINSTALL] nvm has been uninstalled."
+    echo "Restart your terminal or run:"
+    echo "source ~/.bashrc"
+
 }
 
 while [[ $# -gt 0 ]]; do
