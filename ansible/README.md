@@ -9,12 +9,12 @@ ansible-playbook -i "localhost," -c local full_install.yml --ask-become-pass
 ansible-playbook -i inventories/localhost.yaml nexus3_ice_install.yaml
 
 # REMOTE
-ansible-playbook -i inventory.yml full_install.yml
+ansible-playbook -i inventories/debian_workstation.yaml full_install.yml
 ```
 
 Check if inventory works
 ```SHELL
-ansible -i inventory.yml all -m ping
+ansible -i inventories/debian_workstation.yaml all -m ping
 ```
 
 
