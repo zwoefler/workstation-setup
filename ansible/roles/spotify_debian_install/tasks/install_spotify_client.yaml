@@ -1,0 +1,5 @@
+- name: Install Spotify client
+  ansible.builtin.apt:
+    name: "{{ spotify_package_name }}"
+    state: present
+  become: true
