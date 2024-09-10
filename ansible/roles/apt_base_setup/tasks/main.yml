@@ -29,4 +29,4 @@
 - name: Install GUI / programms packages
   ansible.builtin.apt:
     pkg:
-    - firefox-esr
+    - firefox
