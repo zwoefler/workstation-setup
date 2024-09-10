@@ -1,0 +1,2 @@
+steam_deb_url: https://cdn.akamai.steamstatic.com/client/installer/steam.deb
+steam_apt_download_path: /tmp/steam.deb

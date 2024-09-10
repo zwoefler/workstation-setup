@@ -1,0 +1,16 @@
+- name: Download Steam installer
+  ansible.builtin.get_url:
+    url: "{{ steam_deb_url }}"
+    dest: "{{ steam_apt_download_path }}"
+    mode: '0644'
+
+- name: Install Steam from the downloaded .deb package
+  ansible.builtin.apt:
+    deb: "{{ steam_apt_download_path }}"
+  become: true
+
+- name: Remove Steam .deb file after successful installation
+  ansible.builtin.file:
+    path: "{{ steam_apt_download_path }}"
+    state: absent
+  when: steam_installed.rc == 0
