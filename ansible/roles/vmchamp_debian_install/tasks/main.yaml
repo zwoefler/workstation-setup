@@ -1,0 +1,61 @@
+---
+- name: Check if CPU supports virtualization (vmx or svm)
+  ansible.builtin.command: egrep '(vmx|svm)' /proc/cpuinfo
+  ignore_errors: true
+  register: cpu_virtualization_check
+
+- name: Fail if CPU does not support virtualization
+  ansible.builtin.fail:
+    msg: "ERROR: Your CPU does not support virtualization."
+  when: cpu_virtualization_check.rc != 0
+
+- name: Install KVM and related packages if not installed
+  ansible.builtin.apt:
+    name:
+      - qemu-kvm
+      - libvirt-daemon-system
+      - libvirt-clients
+      - bridge-utils
+    state: present
+    update_cache: true
+
+- name: Add user to libvirt group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: libvirt
+    append: true
+  become: true
+
+- name: Add user to kvm group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: kvm
+    append: true
+  become: true
+
+- name: Fetch latest VmChamp release information from GitHub API
+  ansible.builtin.uri:
+    url: "{{ vmchamp_github_api_url }}"
+    return_content: true
+  register: vmchamp_release_info
+
+- name: Extract the browser_download_url from the release information
+  set_fact:
+    vmchamp_download_url: "{{ (vmchamp_release_info.content | from_json).assets[0].browser_download_url }}"
+
+- name: Download the latest VmChamp binary
+  ansible.builtin.get_url:
+    url: "{{ vmchamp_download_url }}"
+    dest: "{{ vmchamp_installation_path }}"
+    mode: '0755'
+  become: true
+
+- name: Verify VmChamp installation
+  ansible.builtin.command: vmchamp --version
+  register: vmchamp_installed
+  ignore_errors: true
+
+- name: Print success message if VmChamp is installed
+  ansible.builtin.debug:
+    msg: "VmChamp installed successfully."
+  when: vmchamp_installed.rc == 0
