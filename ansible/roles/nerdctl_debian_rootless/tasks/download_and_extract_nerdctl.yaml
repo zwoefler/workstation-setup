@@ -1,0 +1,23 @@
+- name: Check if nerdctl is already installed
+  ansible.builtin.command: nerdctl --version
+  ignore_errors: true
+  become_user: "{{ ansible_user }}"
+
+- name: Download nerdctl if not already installed
+  ansible.builtin.get_url:
+    url: "{{ nerdctl_download_url }}"
+    dest: "/home/{{ ansible_user }}/{{ nerdctl_archive }}"
+    mode: 0755
+    owner: "{{ ansible_user }}"
+  become_user: "{{ ansible_user }}"
+
+# Add every few seconds a progress on how much ha salready been downloaded!
+
+- name: Extract nerdctl to /usr/local/
+  ansible.builtin.unarchive:
+    src: "/home/{{ ansible_user }}/{{ nerdctl_archive }}"
+    dest: /usr/local
+    remote_src: true
+  become: true
+
+# tar file still on disk... remove?

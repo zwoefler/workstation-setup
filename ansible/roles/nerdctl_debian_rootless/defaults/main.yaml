@@ -1,0 +1,4 @@
+---
+nerdctl_version: "1.7.6"
+nerdctl_archive: "nerdctl-full-{{ nerdctl_version }}-linux-amd64.tar.gz"
+nerdctl_download_url: "https://github.com/containerd/nerdctl/releases/download/v{{ nerdctl_version }}/{{ nerdctl_archive }}"

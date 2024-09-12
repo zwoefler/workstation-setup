@@ -5,6 +5,7 @@
   roles:
     - remove_snap
     - apt_base_setup
+    - nerdctl_debian_rootless
     - firefox_debian_install
     - spotify_debian_install
     - steam_ubuntu_install
