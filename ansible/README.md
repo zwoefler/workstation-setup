@@ -17,6 +17,15 @@ Check if inventory works
 ansible -i inventories/debian_workstation.yaml all -m ping
 ```
 
+## ToDo for Full Setup
+- [ ] Firefox role (disabling snap --> need to install firefox via ppa)
+- [ ] Nerdctl role
+- [ ] VSCode role
+- [ ] Obsidian role
+- [ ] Signal Messenger role
+- [ ] NVIDIA Driver for graphics card role
+
+
 
 ---
 
