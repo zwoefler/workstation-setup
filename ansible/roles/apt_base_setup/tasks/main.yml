@@ -26,7 +26,9 @@
     - openssh-server
     - openssh-client
 
-- name: Install GUI / programms packages
-  ansible.builtin.apt:
-    pkg:
-    - firefox
+
+# Make own role Install firefox snapless
+# - name: Install GUI / programms packages
+#   ansible.builtin.apt:
+#     pkg:
+#     - firefox
