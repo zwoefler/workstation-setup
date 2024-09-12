@@ -1,0 +1,20 @@
+# Ubuntu 2404
+# https://rootlesscontaine.rs/getting-started/common/apparmor/
+- name: Create AppArmor profile for rootlesskit
+  ansible.builtin.copy:
+    dest: /etc/apparmor.d/usr.local.bin.rootlesskit
+    content: |
+      abi <abi/4.0>,
+      include <tunables/global>
+
+      /usr/local/bin/rootlesskit flags=(unconfined) {
+        userns,
+        include if exists <local/usr.local.bin.rootlesskit>
+      }
+  become: true
+
+- name: Restart AppArmor service
+  ansible.builtin.systemd:
+    name: apparmor
+    state: restarted
+  become: true
