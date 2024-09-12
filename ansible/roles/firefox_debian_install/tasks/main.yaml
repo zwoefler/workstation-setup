@@ -1,0 +1,3 @@
+- include_tasks: add_mozilla_repository.yaml
+- include_tasks: prioritize_apt_mozilla_packages.yaml
+- include_tasks: install_firefox.yaml

@@ -1,0 +1,2 @@
+mozilla_gpg_key_url: https://packages.mozilla.org/apt/repo-signing-key.gpg
+mozilla_gpg_asc_key_path: /etc/apt/keyrings/packages.mozilla.org.asc
