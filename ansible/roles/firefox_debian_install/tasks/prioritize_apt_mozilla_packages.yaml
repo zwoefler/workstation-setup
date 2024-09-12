@@ -1,0 +1,8 @@
+- name: Configure APT to prioritize Mozilla packages
+  ansible.builtin.copy:
+    dest: /etc/apt/preferences.d/mozilla
+    content: |
+      Package: *
+      Pin: origin packages.mozilla.org
+      Pin-Priority: 1000
+  become: true
