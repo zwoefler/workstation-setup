@@ -1,0 +1,2 @@
+- include_tasks: apt_32_bit_dependencies.yaml
+- include_tasks: install_steam_package.yaml

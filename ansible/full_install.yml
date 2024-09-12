@@ -2,7 +2,9 @@
 - name: Full Setup
   hosts: all
   become: true
-
   roles:
+    - remove_snap
     - apt_base_setup
+    - spotify_debian_install
+    - steam_ubuntu_install
 

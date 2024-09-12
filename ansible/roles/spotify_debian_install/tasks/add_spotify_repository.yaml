@@ -1,0 +1,12 @@
+---
+- name: Add Spotify's GPG key
+  ansible.builtin.get_url:
+    url: "{{ spotify_gpg_key_url }}"
+    dest: "{{ spotify_gpg_asc_key_path }}"
+
+- name: Add Spotify repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64 signed-by={{ spotify_gpg_asc_key_path }}] http://repository.spotify.com stable non-free
+    state: present
+    filename: "{{ spotify_source_list_filename }}"
+  become: true

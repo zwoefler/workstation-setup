@@ -1,0 +1,20 @@
+- name: Purge snapd package if installed
+  ansible.builtin.apt:
+    name: snapd
+    state: absent
+    purge: true
+    autoremove: true
+  when: "'snapd' in ansible_facts.packages"
+  become: true
+
+- name: Remove snap directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /snap
+    - "{{ ansible_env.HOME }}/snap"
+    - /var/snap
+    - /var/lib/snapd
+    - /var/cache/snapd
+  become: true

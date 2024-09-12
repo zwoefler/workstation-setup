@@ -1,0 +1,8 @@
+- name: Prevent snapd from being reinstalled
+  ansible.builtin.copy:
+    dest: /etc/apt/preferences.d/nosnap.pref
+    content: |
+      Package: snapd
+      Pin: release a=*
+      Pin-Priority: -10
+  become: true
