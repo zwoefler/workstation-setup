@@ -1,2 +1,2 @@
-- include_tasks: setup_spotify_apt_package.yaml
+- include_tasks: add_spotify_repository.yaml
 - include_tasks: install_spotify_client.yaml
