@@ -29,6 +29,7 @@ None.
 ```
 
 ### ToDo
+- [ ] Rerun updates if version is higher
 - [ ] Add Uninstall VmChamp role
 - [ ] Set VmChamp version
 - [ ] Provide binary from control node, and install from there
