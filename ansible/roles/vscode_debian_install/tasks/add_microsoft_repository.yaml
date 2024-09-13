@@ -1,0 +1,12 @@
+---
+- name: Add Microsoft's GPG key
+  ansible.builtin.get_url:
+    url: "{{ microsoft_gpg_key_url }}"
+    dest: "{{ microsoft_gpg_asc_key_path }}"
+
+- name: Add VSCode repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64 signed-by={{ microsoft_gpg_asc_key_path }}] https://packages.microsoft.com/repos/code stable main
+    state: present
+    filename: "{{ microsoft_source_list_filename }}"
+  become: true
