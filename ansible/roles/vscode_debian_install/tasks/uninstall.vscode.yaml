@@ -1,0 +1,8 @@
+---
+- name: Remove VSCode client
+  ansible.builtin.apt:
+    name: "{{ vscode_package_name }}"
+    state: absent
+  become: true
+
+
