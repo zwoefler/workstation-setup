@@ -25,6 +25,7 @@ None.
 
 
 ### ToDO
+- [ ] Rerun updates nerdctl, if version is higher
 - [X] Activate Bash completion
 - [ ] Provide uninstall/purge option
 - [ ] Provide binary from control node

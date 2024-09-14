@@ -1,0 +1,2 @@
+- include_tasks: add_microsoft_repository.yaml
+- include_tasks: install_vscode.yaml

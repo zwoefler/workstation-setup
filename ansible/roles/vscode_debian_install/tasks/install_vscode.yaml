@@ -1,0 +1,10 @@
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+  become: true
+
+- name: Install VSCode client
+  ansible.builtin.apt:
+    name: "{{ vscode_package_name }}"
+    state: present
+  become: true
