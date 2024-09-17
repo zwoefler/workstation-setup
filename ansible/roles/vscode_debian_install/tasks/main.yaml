@@ -1,2 +1,11 @@
 - include_tasks: add_microsoft_repository.yaml
 - include_tasks: install_vscode.yaml
+
+- name: Check if action is "install" or "uninstall"
+  include_tasks: add_microsoft_repository.yaml
+  when: vscode_action == "install"
+
+- name: Install or uninstall VSCode
+  include_tasks: "{{ task_file }}"
+  vars:
+    task_file: "{{ 'install_vscode.yaml' if vscode_action == 'install' else 'uninstall_vscode.yaml' }}"
