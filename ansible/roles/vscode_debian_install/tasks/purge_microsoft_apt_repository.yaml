@@ -1,0 +1,6 @@
+- name: Remove VSCode repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64 signed-by={{ microsoft_gpg_asc_key_path }}] https://packages.microsoft.com/repos/code stable main
+    state: absent
+    filename: "{{ microsoft_source_list_filename }}"
+  become: true

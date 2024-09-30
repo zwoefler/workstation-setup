@@ -15,9 +15,12 @@ None.
 
 ### Example Playbook
 ```YAML
-- hosts: all
+- name: Install VSCode
   roles:
-    - vscode_debian_install
+    - role: vscode_debian_install
+      vars:
+        vscode_action: "install"  # Optional, "install" is default.
+
 ```
 
 ### ToDo
