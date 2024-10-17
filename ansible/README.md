@@ -27,7 +27,8 @@ Full setup for Ubuntu24.04 LTS
 - [ ] Signal Messenger role
 - [ ] NVIDIA Driver for graphics card role
 
-
+- [ ] Install vimrc
+- [ ] Remove ubuntu packages: seahorse
 
 ---
 

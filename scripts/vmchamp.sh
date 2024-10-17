@@ -2,7 +2,7 @@
 
 print_help() {
     echo "Usage: $0 [options]"
-    echo "Installs VmChamp"
+    echo "Install latest VmChamp app and dependencies"
     echo ""
     echo "Options:"
     echo "  --help, -h   Show this help message"
@@ -23,8 +23,7 @@ install_vmchamp() {
     sudo adduser "$USER" kvm
 
     echo "[INSTALL] Downloading and installing VmChamp..."
-    wget https://github.com/wubbl0rz/VmChamp/releases/download/v0.0.7/VmChamp-linux-v0.0.7-amd64
-    mv VmChamp-linux-v0.0.7-amd64 vmchamp
+    wget -qO- https://api.github.com/repos/zwoefler/VmChamp/releases/latest | grep "browser_download_url" | cut -d '"' -f 4 | wget -i - -O vmchamp
     chmod +x vmchamp
     sudo mv vmchamp /usr/local/bin/
     echo "[INSTALL] VmChamp installed successfully."
