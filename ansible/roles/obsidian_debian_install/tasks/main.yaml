@@ -1,0 +1,13 @@
+- name: Check if Obsidian is already installed
+  ansible.builtin.command: dpkg-query -W -f='${Status}' obsidian | grep 'install ok installed'
+  register: obsidian_installed
+  ignore_errors: true
+
+- name: Install Ubuntu
+  when: uninstall_obsidian and obsidian_installed.rc == 0
+  ansible.builtin.include_tasks: remove_ubuntu.yaml
+
+- name: Install Ubuntu
+  when: not uninstall_obsidian
+  ansible.builtin.include_tasks: install_ubuntu.yaml
+

@@ -1,0 +1,42 @@
+- name: Install required dependencies
+  ansible.builtin.apt:
+    name:
+      - libgbm1
+      - libasound2
+    state: present
+    update_cache: true
+
+- name: Fetch latest Obsidian version tag
+  when: obsidian_version == ""
+  ansible.builtin.shell: |
+    curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest | grep 'tag_name' | cut -d '"' -f 4
+  register: latest_tag
+
+- name: Set OBSIDIAN_VERSION. Remove "v" from latest tag
+  ansible.builtin.set_fact:
+    obsidian_version: "{{ latest_tag.stdout | regex_replace('^v', '') }}"
+
+- name: Install Obsidian from local .deb file
+  ansible.builtin.apt:
+    deb: "{{ local_deb_file }}"
+  when: local_deb_file != ""
+
+- name: Install Obsidian from GitHub
+  when: local_deb_file == "" and obsidian_version != ""
+  block:
+    - name: Download Obsidian .deb file
+      ansible.builtin.get_url:
+        url: "https://github.com/obsidianmd/obsidian-releases/releases/download/v{{ obsidian_version }}/obsidian_{{ obsidian_version }}_amd64.deb"
+        dest: "{{ obsidian_deb_file_path }}"
+      register: download_result
+
+    - name: Install Obsidian .deb. file
+      ansible.builtin.apt:
+        deb: "{{ obsidian_deb_file_path }}"
+      when: download_result is succeeded
+
+    - name : Remove downloaded .deb files
+      ansible.builtin.file:
+        path: "{{ obsidian_deb_file_path }}"
+        state: absent
+

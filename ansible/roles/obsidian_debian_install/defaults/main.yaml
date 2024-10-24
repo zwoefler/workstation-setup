@@ -1,0 +1,5 @@
+---
+obsidian_version: ""
+local_deb_file: ""
+uninstall_obsidian: false
+obsidian_deb_file_path: "/tmp/obsidian_{{ obsidian_version }}_amd64.deb"

@@ -1,0 +1,10 @@
+---
+driver:
+  name: docker
+
+platforms:
+  - name: instance
+    image: geerlingguy/docker-ubuntu2004-ansible
+    privileged: true
+    command: /sbin/init
+    user: root
