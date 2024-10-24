@@ -1,6 +1,5 @@
 #!/bin/bash
 
-OBSIDIAN_VERSION="1.6.7"
 LOCAL_DEB_FILE=""
 
 print_help() {
@@ -15,7 +14,19 @@ print_help() {
     echo ""
 }
 
+get_latest_tag() {
+    echo "[INFO] Fetching latest Obsidian version tag..."
+    TAG_NAME=$(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest | grep 'tag_name' | cut -d '"' -f 4)
+    if [ -z "$TAG_NAME" ]; then
+        echo "[ERROR] Could not fetch the latest Obsidian version."
+        exit 1
+    fi
+    echo "[INFO] Latest Obsidian version: $TAG_NAME"
+}
+
 install_obsidian() {
+    get_latest_tag
+    OBSIDIAN_VERSION="${TAG_NAME#v}"
     echo "[INSTALL] Installing dependencies"
     sudo apt install -y libgbm1 libasound2
 
