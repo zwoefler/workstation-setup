@@ -4,6 +4,11 @@ Install [Obsidian](https://obsidian.md/).
 Installs the latest version, a specific version, or uninstalls Obsidian.
 A simple yet powerful application for notetaking that works on local Markdown files.
 
+Rerun triggers an update.
+
+
+
+
 ## Requirements
 
 - Ansible 2.9 or later
