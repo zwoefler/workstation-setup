@@ -17,6 +17,15 @@ Rerun triggers an update.
 ## Dependencies
 None.
 
+## Testing & Development
+Using Ansible Molecule for testing:
+```SHELL
+molecule create
+molecule converge
+```
+
+
+
 ## Role Variables
 
 ```yaml

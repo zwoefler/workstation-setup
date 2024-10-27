@@ -2,5 +2,17 @@
 - name: Converge
   hosts: all
   become: yes
+  vars:
+    obsidian_version: 1.7.4
   roles:
-    - role: obsidian_debian_install
+    - obsidian_debian_install
+  tasks:
+  - name: Debug obsidian_version
+    ansible.builtin.debug:
+      msg: "Obsidian version: {{ obsidian_version }}"
+  - name: Debug installed_version
+    ansible.builtin.debug:
+      msg: "Installed version: {{ installed_version }}"
+  - name: Debug if reinstall required
+    ansible.builtin.debug:
+      msg: "Reinstall required: {{ reinstall_required }}"

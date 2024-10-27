@@ -1,25 +1,10 @@
-- name: Fetch latest Obsidian version tag when no version was given
-  when: obsidian_version == ""
-  ansible.builtin.shell: |
-    curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest | grep 'tag_name' | cut -d '"' -f 4
-  register: latest_tag
-
-- name: Set obsidian_version to latest if needed. Remove "v" from latest tag
-  when: obsidian_version == ""
-  ansible.builtin.set_fact:
-    obsidian_version: "{{ latest_tag.stdout | regex_replace('^v', '') }}"
-
-- name: Determine if reinstallation is required
-  ansible.builtin.set_fact:
-    reinstall_required: "{{ obsidian_version != installed_version or obsidian_installed.rc != 0 }}"
-
 - name: Install Obsidian from local .deb file
   ansible.builtin.apt:
     deb: "{{ local_deb_file }}"
   when: local_deb_file != ""
 
 - name: Install Obsidian from GitHub
-  when: local_deb_file == "" and obsidian_version != "" and reinstall_required
+  when: local_deb_file == "" and reinstall_required
   block:
     - name: Download Obsidian .deb file
       ansible.builtin.get_url:

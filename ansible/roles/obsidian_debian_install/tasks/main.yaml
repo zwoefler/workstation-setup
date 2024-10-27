@@ -1,11 +1,17 @@
-- name: Check if Obsidian is already installed
-  ansible.builtin.command: dpkg-query -W -f='${Version}' obsidian
-  register: obsidian_installed
-  ignore_errors: true
 
-- name: Parse installed Obsidian Version
+- name: Check if Obsidian is installed
+  ansible.builtin.include_tasks: check_if_obsidian_is_installed.yaml
+
+- name: Set installed Obsidian version
   ansible.builtin.set_fact:
-    installed_version: "{{ obsidian_installed.stdout if obsidian_installed.rc == 0 else '' }}"
+    installed_version: "{{ version_check.stdout if obsidian_installed.rc == 0 else '' }}"
+
+- name: Fetch latest Obsidian version
+  ansible.builtin.include_tasks: fetch_latest_obsidian_version.yaml
+
+- name: Determine if reinstallation is required
+  ansible.builtin.set_fact:
+    reinstall_required: "{{ obsidian_version != installed_version }}"
 
 - name: Remove Obsidian - Ubuntu
   when: uninstall_obsidian and obsidian_installed.rc == 0
@@ -13,5 +19,5 @@
 
 - name: Install or Update Ubuntu
   when: not uninstall_obsidian
-  ansible.builtin.include_tasks: install_or_update_ubuntu.yaml
+  ansible.builtin.include_tasks: install_obsidian_ubuntu.yaml
 
