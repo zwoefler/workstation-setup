@@ -6,9 +6,6 @@ A simple yet powerful application for notetaking that works on local Markdown fi
 
 Rerun triggers an update.
 
-
-
-
 ## Requirements
 
 - Ansible 2.9 or later
@@ -24,8 +21,6 @@ molecule create
 molecule converge
 ```
 
-
-
 ## Role Variables
 
 ```yaml
@@ -34,16 +29,6 @@ vars:
   local_deb_file: ""                 # path to local .deb file
   uninstall_obsidian: false          # true to uninstall Obsidian
   obsidian_deb_file_path: "/tmp/obsidian_{{ obsidian_version }}_amd64.deb"
-```
-
-## Default Variables
-```yaml
----
-# Default values for the role
-obsidian_version: ""
-local_deb_file: ""
-uninstall_obsidian: false
-obsidian_deb_file_path: "/tmp/obsidian_{{ obsidian_version }}_amd64.deb"
 ```
 
 ## Usage
