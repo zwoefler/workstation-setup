@@ -2,10 +2,6 @@
 - name: Check if Obsidian is installed
   ansible.builtin.include_tasks: check_if_obsidian_is_installed.yaml
 
-- name: Set installed Obsidian version
-  ansible.builtin.set_fact:
-    installed_version: "{{ version_check.stdout if obsidian_installed.rc == 0 else '' }}"
-
 - name: Fetch latest Obsidian version
   ansible.builtin.include_tasks: fetch_latest_obsidian_version.yaml
 
