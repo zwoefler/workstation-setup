@@ -1,3 +1,11 @@
+- name: Install required dependencies
+  ansible.builtin.apt:
+    name:
+      - libgbm1
+      - libasound2
+    state: present
+    update_cache: true
+
 - name: Install Obsidian from local .deb file
   ansible.builtin.apt:
     deb: "{{ local_deb_file }}"

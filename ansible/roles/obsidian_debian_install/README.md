@@ -86,6 +86,10 @@ vars:
   obsidian_version: ""
 ```
 
+## Problems
+- obsidian: error while loading shared libraries: libgbm.so.1: cannot open shared object file: No such file or directory
+
+
 ### LICENSE
 MIT
 

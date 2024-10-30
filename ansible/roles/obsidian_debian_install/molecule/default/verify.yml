@@ -1,0 +1,9 @@
+- name: Verify Obsidian can run
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Verify Obsidian can start without errors
+      ansible.builtin.shell: "timeout 5s obsidian"
+      register: obsidian_run_check
+      failed_when: obsidian_run_check.rc != 0
+      changed_when: false
