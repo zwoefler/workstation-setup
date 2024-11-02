@@ -13,4 +13,3 @@
 - name: Set Obsidian installed version if present
   ansible.builtin.set_fact:
     installed_version: "{{ version_check.stdout | default('') }}"
-  when: obsidian_installed.stat.exists

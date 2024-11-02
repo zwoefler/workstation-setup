@@ -1,4 +1,3 @@
-
 - name: Check if Obsidian is installed
   ansible.builtin.include_tasks: check_if_obsidian_is_installed.yaml
 
