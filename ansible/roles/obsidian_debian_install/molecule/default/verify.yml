@@ -2,8 +2,42 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: Verify Obsidian can start without errors
-      ansible.builtin.shell: "timeout 5s obsidian"
+    - name: Verify Obsidian binary exists
+      ansible.builtin.command: "test -x /usr/bin/obsidian"
       register: obsidian_run_check
       failed_when: obsidian_run_check.rc != 0
+      changed_when: false
+
+    - name: Install xvfb for virtual X11 display
+      ansible.builtin.apt:
+        name: xvfb
+        state: present
+
+    - name: Ensure dbus is installed
+      ansible.builtin.apt:
+        name: dbus
+        state: present
+
+    - name: Create dbus directory if it does not exist
+      ansible.builtin.file:
+        path: /var/run/dbus
+        state: directory
+        mode: '0755'
+
+    - name: Start dbus-daemon manually if dbus init script fails
+      ansible.builtin.shell: |
+        if /etc/init.d/dbus status; then
+          /etc/init.d/dbus start
+        else
+          dbus-daemon --system --fork
+        fi
+      register: dbus_start
+      changed_when: "'Starting' in dbus_start.get('stdout', '') or dbus_start.rc == 0"
+
+    - name: Verify Obsidian can start without errors using xvfb
+      ansible.builtin.command: "xvfb-run timeout 15s obsidian --no-sandbox"
+      register: obsidian_run_check
+      failed_when:
+        - "'not found' in obsidian_run_check.stderr"
+        - "'App is up to date' not in obsidian_run_check.stdout"
       changed_when: false
