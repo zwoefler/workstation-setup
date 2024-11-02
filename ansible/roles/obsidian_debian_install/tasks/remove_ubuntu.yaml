@@ -1,0 +1,4 @@
+- name: Uninstall Obsidian
+  ansible.builtin.apt:
+    name: obsidian
+    state: absent

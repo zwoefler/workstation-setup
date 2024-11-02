@@ -1,0 +1,10 @@
+- name: Fetch latest Obsidian version tag when no version was given
+  when: obsidian_version == ""
+  ansible.builtin.shell: |
+    curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest | grep 'tag_name' | cut -d '"' -f 4
+  register: latest_tag
+
+- name: Set obsidian_version to latest if needed. Remove "v" from latest tag
+  when: obsidian_version == ""
+  ansible.builtin.set_fact:
+    obsidian_version: "{{ latest_tag.stdout | regex_replace('^v', '') }}"

@@ -1,0 +1,15 @@
+- name: Check if Obsidian binary exists
+  ansible.builtin.stat:
+    path: /usr/bin/obsidian
+  register: obsidian_installed
+
+- name: Get Installed Obsidian Version (if installed)
+  ansible.builtin.shell: "dpkg-query -W -f='${Version}' obsidian"
+  register: version_check
+  when: obsidian_installed.stat.exists
+  failed_when: false
+  changed_when: false
+
+- name: Set Obsidian installed version if present
+  ansible.builtin.set_fact:
+    installed_version: "{{ version_check.stdout | default('') }}"
